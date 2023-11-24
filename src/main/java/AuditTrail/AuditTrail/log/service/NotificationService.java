@@ -6,6 +6,7 @@ import AuditTrail.AuditTrail.log.repository.NotificationRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +21,8 @@ public class NotificationService {
         user.setId(userId);
         Boolean isSeen = Boolean.FALSE;
 
-        List<Notification> notificationList = notificationRepo.findAllByNotificationToAndIsSeen(user, isSeen);
+        List<Notification> notificationList = notificationRepo.
+                findAllByNotificationToAndIsSeenAndExpirationDateGreaterThan(user, isSeen, LocalDateTime.now());
         return notificationList;
     }
 
